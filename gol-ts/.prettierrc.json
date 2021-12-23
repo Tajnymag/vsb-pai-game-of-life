@@ -1,0 +1,20 @@
+{
+  "printWidth": 120,
+  "overrides": [
+    {
+      "files": "*.ts",
+      "options": {
+        "useTabs": true,
+        "tabWidth": 4,
+        "singleQuote": true
+      }
+    },
+    {
+      "files": ["*.html"],
+      "options": {
+        "useTabs": true,
+        "tabWidth": 2
+      }
+    }
+  ]
+}

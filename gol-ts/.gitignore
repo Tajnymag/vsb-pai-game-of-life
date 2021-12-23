@@ -1,0 +1,17 @@
+# generic node
+node_modules
+
+# IntelliJ
+.idea
+
+# typescript output
+dist
+
+# yarn specific
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

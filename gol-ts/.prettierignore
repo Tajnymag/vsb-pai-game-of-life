@@ -1,0 +1,9 @@
+# generic node
+node_modules
+
+# typescript output
+dist
+
+# yarn specific
+.pnp.*
+.yarn/*
