@@ -99,7 +99,7 @@ export class GoLWorker {
       patternLoop:
       for (const [patternID, pattern] of allPatterns.entries()) {
         let patternStart = i;
-        let patternEnd = patternStart + (pattern.height - 1) * this.targetBoard.width + pattern.width - 1;
+
         for (let patternY = 0; patternY < pattern.height; ++patternY) {
           for (let patternX = 0; patternX < pattern.width; ++patternX) {
             const cellIndex = patternStart + patternY * this.targetBoard.width + patternX;
