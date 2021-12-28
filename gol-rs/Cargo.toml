@@ -1,0 +1,23 @@
+[package]
+name = "gol-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies.ca-formats]
+version = "0.3.3"
+
+[dependencies.num_cpus]
+version = "1.13.0"
+
+[dependencies.sdl2]
+version = "0.35"
+default-features = false
+features = ["ttf","image","gfx","mixer","static-link","use-vcpkg"]
+
+[package.metadata.vcpkg]
+dependencies = ["sdl2", "sdl2-image[libjpeg-turbo,tiff,libwebp]", "sdl2-ttf", "sdl2-gfx", "sdl2-mixer"]
+git = "https://github.com/microsoft/vcpkg"
+rev = "eff88baadcf16a7c441bf42be7eafb1df7d37d4e"
+
+[package.metadata.vcpkg.target]
+x86_64-pc-windows-msvc = { triplet = "x64-windows-static-md" }
