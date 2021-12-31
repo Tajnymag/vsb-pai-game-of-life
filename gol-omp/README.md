@@ -20,4 +20,4 @@ This version uses C++20 with OpenMP for parallelization and SDL2 for visualizati
 
 ## Build
 
-The project uses CMake and should be buildable like any other C++ CMAKE project.
+The project uses CMake and should be buildable like any other C++ CMake project.
