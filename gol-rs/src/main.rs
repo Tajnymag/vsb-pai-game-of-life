@@ -11,10 +11,12 @@ use sdl2::pixels::Color;
 
 use sdl2::rect::Rect;
 use sdl2::render::WindowCanvas;
-use crate::patterns::{get_searchable_patterns, PATTERN_COLORS_RGB};
+use crate::patterns::{get_n_glider_loop, get_searchable_patterns, PATTERN_COLORS_RGB, RuleLengthEncoded};
 
 mod patterns;
 mod utils;
+
+const TARGET_FRAMERATE: u32 = 60;
 
 const DEFAULT_BOARD_WIDTH: u32 = 128;
 const DEFAULT_BOARD_HEIGHT: u32 = 128;
@@ -102,20 +104,21 @@ fn render_board(board: &Arc<RwLock<Vec<AtomicBool>>>, board_width: u32, _board_h
     let board_unlocked = board.read().unwrap();
     let found_patterns_unlocked = found_patterns.read().unwrap();
 
-    canvas.set_draw_color(pixels::Color::RGB(0, 0, 0));
+    canvas.set_draw_color(pixels::Color::RGB(255, 255, 255));
     canvas.clear();
 
     for cell_index in 0..board_unlocked.len() {
         let cell_alive = board_unlocked[cell_index].load(Relaxed);
-        let cell_color = if cell_alive {
-            let pattern_id = &found_patterns_unlocked[cell_index].load(Relaxed);
 
-            if *pattern_id > 0 {
-                let color: &Color = &PATTERN_COLORS_RGB[*pattern_id as usize];
-                pixels::Color::RGB(color.r, color.g, color.b)
-            } else {
-                pixels::Color::RGB(255, 255, 255)
-            }
+        if !cell_alive {
+            continue;
+        }
+
+        let pattern_id = &found_patterns_unlocked[cell_index].load(Relaxed);
+
+        let cell_color = if *pattern_id > 0 {
+            let color: &Color = &PATTERN_COLORS_RGB[*pattern_id as usize];
+            pixels::Color::RGB(color.r, color.g, color.b)
         } else {
             pixels::Color::RGB(0, 0, 0)
         };
@@ -162,9 +165,12 @@ fn main() -> Result<(), String> {
     board_b.write().unwrap().resize_with((board_width * board_height) as usize, AtomicBool::default);
     pattern_board.write().unwrap().resize_with((board_width * board_height) as usize, AtomicU8::default);
 
-    let seed_file_path = env::args().skip(1).next().unwrap_or(String::from("patterns/n_glider_loop.rle"));
-
-    let seed = patterns::load_pattern_from_file(seed_file_path);
+    let seed: RuleLengthEncoded = if env::args().skip(1).len() < 1 {
+        get_n_glider_loop()
+    } else {
+        let seed_file_path = env::args().skip(1).next().unwrap();
+        patterns::load_pattern_from_file(seed_file_path)
+    };
 
     let seed_start_x = utils::clamp((board_width as i32 - seed.width as i32) / 2, 0, board_width as i32 - 1);
     let seed_start_y = utils::clamp((board_height as i32 - seed.height as i32) / 2, 0, board_height as i32 - 1);
@@ -252,7 +258,7 @@ fn main() -> Result<(), String> {
             render_board(&board_a, board_width, board_height, &pattern_board, &mut canvas)?;
         }
 
-        if delta <= 1000 / 60 {
+        if delta <= 1000 / TARGET_FRAMERATE {
             continue 'main;
         }
 
