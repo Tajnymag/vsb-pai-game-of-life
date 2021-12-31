@@ -6,4 +6,4 @@
 * [TypeScript](/gol-ts/README.md)
 * [Rust](/gol-rs/README.md)
 * [Python](/gol-py/README.md)
-* [C++](/gol-cpp/README.md)
+* [C++](/gol-omp/README.md)
