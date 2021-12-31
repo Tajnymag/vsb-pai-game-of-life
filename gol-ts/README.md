@@ -10,4 +10,4 @@ Paste your desired seed into the main textarea and press the "Play" button.
 
 ## Build
 
-Not necessary as the project is automatically built and deployed at [https://vsb-pai-gol.netlify.app/](https://vsb-pai-gol.netlify.app/).
+Not necessary as the project is automatically built and deployed at [vsb-pai-gol.netlify.app](https://vsb-pai-gol.netlify.app/).
